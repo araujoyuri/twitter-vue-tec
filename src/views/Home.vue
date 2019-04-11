@@ -1,13 +1,23 @@
 <template>
-  <HelloWorld />
+  <section>
+    <Timeline v-if="isAuthenticated" />
+    <LoginPage v-else />
+  </section>
 </template>
 
 <script>
-import HelloWorld from '../components/HelloWorld'
+import LoginPage from './LoginPage'
+import Timeline from './Timeline'
 
 export default {
   components: {
-    HelloWorld
+    LoginPage,
+    Timeline
+  },
+  computed: {
+    isAuthenticated () {
+      return window.localStorage.getItem('vue-twitter-access-token')
+    }
   }
 }
 </script>

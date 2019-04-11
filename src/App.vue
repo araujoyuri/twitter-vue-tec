@@ -1,35 +1,26 @@
 <template>
-  <v-app id="topbar">
-    <v-toolbar color="indigo" dark fixed app>
-      <v-toolbar-title>Twitter DevEngers</v-toolbar-title>
-      <v-toolbar-items>
-        <v-btn to="/" flat>Página Inicial</v-btn>
-        <v-btn to="/login" flat>Login</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
+  <v-app>
+    <Toolbar />
     <v-content>
       <v-container fluid>
-        <HelloWorld/>
+        <Home />
       </v-container>
     </v-content>
-    <v-footer color="indigo" app>
-      <span class="white--text">&copy; 2019</span>
-    </v-footer>
+    <Footer />
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import Home from './views/Home'
+import Toolbar from './components/Toolbar'
+import Footer from './components/Footer'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  },
-  data () {
-    return {
-      //
-    }
+    Home,
+    Toolbar,
+    Footer
   }
 }
 </script>

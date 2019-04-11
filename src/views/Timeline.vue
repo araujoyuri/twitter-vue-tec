@@ -1,14 +1,14 @@
 <template>
-  <LoginForm/>
+  <Tweets/>
 </template>
 
 <script>
-import LoginForm from '../components/LoginForm'
+import Tweets from '../components/Tweets'
 
 export default {
-  name: 'Login',
+  name: 'Timeline',
   components: {
-    LoginForm
+    Tweets
   }
 }
 </script>

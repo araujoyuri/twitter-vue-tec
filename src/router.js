@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import About from './views/About'
-import Login from './views/Login'
+import LoginPage from './views/LoginPage'
+import Timeline from './views/Timeline'
 
 Vue.use(Router)
 
@@ -16,14 +16,14 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About
+      path: 'login',
+      name: 'login_page',
+      component: LoginPage
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login
+      path: 'timeline',
+      name: 'timeline',
+      component: Timeline
     }
   ]
 })

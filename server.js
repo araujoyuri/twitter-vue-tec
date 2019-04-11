@@ -8,4 +8,8 @@ app.use(serveStatic(path.join(__dirname, '/dist')))
 const port = process.env.PORT || 5000
 app.listen(port)
 
+app.get('/.well-known/acme-challenge/:content', function(req, res) {
+  res.send('xxxxxxxxxxxx-yyyy.zzzzzzzzzzzzzzzzzzz')
+})
+
 console.log('Server started at ', port)

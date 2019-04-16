@@ -25,8 +25,7 @@ import moment from 'moment'
 export default {
   computed: {
     tweetsFromDB () {
-      let json = JSON.stringify(tweets)
-      return JSON.parse(json)['json']
+      return tweets['json']
     }
   },
   filters: {

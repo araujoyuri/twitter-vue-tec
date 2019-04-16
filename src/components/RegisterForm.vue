@@ -48,7 +48,7 @@ export default {
       }
     },
     registerUser () {
-      if (!users.find(user => user.login === this.login)) {
+      if (!users['json'].find(user => user.login === this.login)) {
         users['json'].push({ login: this.login, password: this.password })
         const hashedPass = hashSync(this.password, 8)
         window.localStorage.setItem('vue-twitter-access-token', hashedPass)

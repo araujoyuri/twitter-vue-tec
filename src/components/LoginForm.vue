@@ -18,9 +18,6 @@
 </template>
 
 <script>
-import users from '../../users-list'
-import { hashSync } from 'bcryptjs'
-
 export default {
   name: 'LoginForm',
   data () {
@@ -31,16 +28,14 @@ export default {
   },
   methods: {
     checkLogin () {
-      const user = users['json'].find(user => this.login === user.login && this.password === user.password)
-      if (user) {
-        let hashedPass = hashSync(user.password, 8)
-        window.localStorage.setItem('vue-twitter-access-token', hashedPass)
-        window.localStorage.setItem('vue-twitter-active-user', user.login)
-        this.$store.dispatch('setActiveUser', { login: this.login, password: this.password })
-        window.location.reload()
-      } else {
-        window.alert('Usuário não encontrado')
-      }
+      this.$store.dispatch('getUser', this.login)
+        .then(user => {
+          if (user) {
+            window.location.reload()
+          } else {
+            window.alert('Usuário não encontrado')
+          }
+        })
     }
   }
 }

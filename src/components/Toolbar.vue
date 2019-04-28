@@ -32,29 +32,21 @@ export default {
   },
   methods: {
     logout () {
-      window.localStorage.removeItem('vue-twitter-access-token')
-      window.localStorage.removeItem('vue-twitter-active-user')
-      this.$store.dispatch('setActiveUser', null)
-      this.active_user = null
-      window.location.reload()
+      this.$store.dispatch('logout')
+        .then(() => {
+          if (!this.isAuthenticated) {
+            window.location.reload()
+          }
+        })
+      window.alert('Erro no processo de logout. Tente novamente.')
     }
   },
   computed: {
     isAuthenticated () {
-      return window.localStorage.getItem('vue-twitter-access-token')
+      return this.$store.state.users.token
     },
     activeUser () {
-      return window.localStorage.getItem('vue-twitter-active-user')
-    },
-    storeWatch () {
-      return this.$store
-    }
-  },
-  watch: {
-    storeWatch (newVal) {
-      if (newVal) {
-        this.active_user = this.activeUser
-      }
+      return this.$store.state.users.activeUser
     }
   }
 }

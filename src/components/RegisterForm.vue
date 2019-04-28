@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import users from '../../users-list'
 import { hashSync } from 'bcryptjs'
+import * as uuid from 'uuid'
 
 export default {
   name: 'RegisterForm',
@@ -37,6 +37,14 @@ export default {
   props: {
     login_data: Object
   },
+  created () {
+    this.$store.dispatch('getUsers')
+  },
+  computed: {
+    resgisteredUsers () {
+      return this.$store.state.users.allUsers
+    }
+  },
   methods: {
     verifyPassword () {
       if (this.password === this.check_password) {
@@ -48,13 +56,21 @@ export default {
       }
     },
     registerUser () {
-      if (!users['json'].find(user => user.login === this.login)) {
-        users['json'].push({ login: this.login, password: this.password })
-        const hashedPass = hashSync(this.password, 8)
-        window.localStorage.setItem('vue-twitter-access-token', hashedPass)
-        window.localStorage.setItem('vue-twitter-active-user', this.login)
-        this.$store.dispatch('setActiveUser', { login: this.login, password: this.password })
-        window.location.reload()
+      const user = this.resgisteredUsers.find(user => user.login === this.login)
+      if (!user) {
+        let user = {
+          id: uuid.v4(),
+          login: this.login,
+          password: hashSync(this.password, 8)
+        }
+        this.$store.dispatch('saveUser', user)
+          .then(() => {
+            if (this.$store.state.users.status === 'success') {
+              window.location.reload()
+            } else {
+              window.alert('Erro no cadastro do usuário. Tente novamente.')
+            }
+          })
       }
     }
   }

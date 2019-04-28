@@ -12,8 +12,6 @@
 </template>
 
 <script>
-import tweets from '../../tweets-list'
-import moment from 'moment'
 import uuid from 'uuid'
 
 export default {
@@ -26,17 +24,27 @@ export default {
   created () {
     console.log('active user: ', window.localStorage.getItem('vue-twitter-active-user'))
   },
+  computed: {
+    activeUser () {
+      return this.$store.state.users.activeUser
+    }
+  },
   methods: {
     createTweet () {
-      let tweetObj = {
+      let tweet = {
         id: uuid.v4(),
-        author: window.localStorage.getItem('vue-twitter-active-user'),
+        author: this.activeUser,
         tweet: this.tweet,
-        timestamp: moment().format('DD/MM/YYYY HH:ss')
+        timestamp: new Date()
       }
-      tweets['json'].push(tweetObj)
-      console.log('tweets: ', tweets)
-      window.location.reload()
+      this.$store.dispatch('saveTweet', tweet)
+        .then(() => {
+          if (this.$store.state.tweets.status === 'success') {
+            window.location.reload()
+          } else {
+            window.alert('Erro na inserção do tweet. Tente novamente.')
+          }
+        })
     }
   }
 }

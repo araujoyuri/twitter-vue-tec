@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xl>
     <v-layout align-center justify-start column fill-height>
-      <v-flex v-for="tweet in tweetsFromDB" :key="tweet.id" md12 sm12 lg4>
+      <v-flex v-for="tweet in tweets" :key="tweet.id" md12 sm12 lg4>
         <v-card class="px-3 py-2">
           <v-responsive width="600px">
             <v-card-title>
@@ -19,13 +19,15 @@
 </template>
 
 <script>
-import tweets from '../../tweets-list'
 import moment from 'moment'
 
 export default {
+  created () {
+    this.$store.dispatch('getTweets')
+  },
   computed: {
-    tweetsFromDB () {
-      return tweets['json']
+    tweets () {
+      return this.$store.state.tweets.allTweets
     }
   },
   filters: {

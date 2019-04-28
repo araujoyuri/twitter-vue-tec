@@ -1,8 +1,12 @@
-let database = {
+export default {
   users: [{
     'id': 'f499926e-3171-46d3-8eba-689fbdcc2d0b',
     'login': 'araujoyuri',
     'password': 'araujoyuri@123'
+  }, {
+    'id': '36beaacb-324e-4469-8913-abb1a22b727d',
+    'login': 'joaosilva',
+    'password': 'joaosilva@123'
   }],
   tweets: [{
     'id': '7cf40626-6d32-4e8e-baee-14b4b6bda909',
@@ -64,8 +68,4 @@ let database = {
     'text': 'Testando 9',
     'timestamp': 1554977162796
   }]
-}
-
-export default {
-  database
 }

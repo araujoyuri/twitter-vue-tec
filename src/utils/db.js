@@ -2,11 +2,11 @@ export default {
   users: [{
     'id': 'f499926e-3171-46d3-8eba-689fbdcc2d0b',
     'login': 'araujoyuri',
-    'password': 'araujoyuri@123'
+    'password': '$2a$08$kuFA1UkGAPfXM1S.WwUzSeeCzkFwEAhXQ9m3QJn1UoErLc2YT6vey'
   }, {
     'id': '36beaacb-324e-4469-8913-abb1a22b727d',
     'login': 'joaosilva',
-    'password': 'joaosilva@123'
+    'password': '$2a$08$kuFA1UkGAPfXM1S.WwUzSezK2P3h138THQ4BE7ud441zm4/UBZrLa'
   }],
   tweets: [{
     'id': '7cf40626-6d32-4e8e-baee-14b4b6bda909',

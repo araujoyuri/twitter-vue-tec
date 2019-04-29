@@ -1,7 +1,9 @@
 import database from './db'
+import { hashSync } from 'bcryptjs'
 
 let usersDB = database.users
 let tweetsDB = database.tweets
+const salt = '$2a$08$kuFA1UkGAPfXM1S.WwUzSe'
 
 const getUsersList = () => {
   return Promise.resolve(usersDB) || Promise.resolve([])
@@ -14,12 +16,17 @@ const findUser = (login) => {
 const insertUser = (user) => {
   const u = usersDB.find(u => u.login === user.login)
   if (!u) {
+    user.password = hashSync(user.password, salt)
     usersDB.push(user)
-    console.log('user: ', user)
     return Promise.resolve(user)
   } else {
     throw new Error(`Usuário ${user.login} já está cadastrado`)
   }
+}
+
+const loginUser = (login, password) => {
+  password = hashSync(password, salt)
+  return Promise.resolve(usersDB.find(user => user.login === login && user.password === password))
 }
 
 const removeUser = (userId) => {
@@ -48,7 +55,6 @@ const insertTweet = (tweet) => {
   const t = tweetsDB.find(t => t.id === tweet.id)
   if (!t) {
     tweetsDB.push(tweet)
-    console.log('tweet: ', tweet)
     return Promise.resolve(tweet)
   } else {
     throw new Error(`Tweet ${tweet.id} já cadastrado`)
@@ -79,6 +85,7 @@ export const Database = {
   getUsersList,
   findUser,
   insertUser,
+  loginUser,
   removeUser,
   getTweetsList,
   getTweetsByUser,

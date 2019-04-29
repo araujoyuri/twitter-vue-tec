@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     isAuthenticated () {
-      return window.localStorage.getItem('vue-twitter-access-token')
+      return this.$store.state.users.token
     }
   }
 }

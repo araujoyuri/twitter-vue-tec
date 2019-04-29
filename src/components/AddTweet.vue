@@ -21,9 +21,6 @@ export default {
       tweet: null
     }
   },
-  created () {
-    console.log('active user: ', window.localStorage.getItem('vue-twitter-active-user'))
-  },
   computed: {
     activeUser () {
       return this.$store.state.users.activeUser

@@ -3,6 +3,7 @@
     <Toolbar />
     <v-content>
       <v-container fluid>
+        <notifications group="toaster"></notifications>
         <Home />
       </v-container>
     </v-content>

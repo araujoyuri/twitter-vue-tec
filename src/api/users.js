@@ -6,6 +6,11 @@ export default {
       .then(response => Promise.resolve(response))
       .catch(error => Promise.reject(error))
   },
+  loginUser (login, password) {
+    return Database.loginUser(login, password)
+      .then(response => Promise.resolve(response))
+      .catch(error => Promise.reject(error))
+  },
   getUsers () {
     return Database.getUsersList()
       .then(response => Promise.resolve(response))

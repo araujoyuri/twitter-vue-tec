@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { hashSync } from 'bcryptjs'
+
 export default {
   name: 'LoginForm',
   data () {
@@ -28,12 +30,21 @@ export default {
   },
   methods: {
     checkLogin () {
-      this.$store.dispatch('getUser', this.login)
+      const loginObj = {
+        login: this.login,
+        password: this.password
+      }
+      this.$store.dispatch('loginUser', loginObj)
         .then(user => {
           if (user) {
-            window.location.reload()
+            this.$router.push('/')
           } else {
-            window.alert('Usuário não encontrado')
+            this.$notify({
+              title: 'Usuário não encontrado',
+              text: 'Reveja os dados informados e tente novamente.',
+              type: 'error',
+              group: 'toaster'
+            })
           }
         })
     }

@@ -35,10 +35,16 @@ export default {
       this.$store.dispatch('logout')
         .then(() => {
           if (!this.isAuthenticated) {
-            window.location.reload()
+            this.$router.replace('/')
+          } else {
+            this.$notify({
+              title: 'Erro no processo de logout',
+              text: 'Verifique sua conexão e tente novamente',
+              group: 'toaster',
+              type: 'error'
+            })
           }
         })
-      window.alert('Erro no processo de logout. Tente novamente.')
     }
   },
   computed: {

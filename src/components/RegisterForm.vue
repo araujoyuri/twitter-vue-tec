@@ -34,9 +34,6 @@ export default {
       password_valid: true
     }
   },
-  props: {
-    login_data: Object
-  },
   created () {
     this.$store.dispatch('getUsers')
   },
@@ -61,16 +58,28 @@ export default {
         let user = {
           id: uuid.v4(),
           login: this.login,
-          password: hashSync(this.password, 8)
+          password: this.password
         }
         this.$store.dispatch('saveUser', user)
-          .then(() => {
-            if (this.$store.state.users.status === 'success') {
-              window.location.reload()
+          .then(user => {
+            if (user) {
+              this.$router.push('/')
             } else {
-              window.alert('Erro no cadastro do usuário. Tente novamente.')
+              this.$notify({
+                title: 'Erro no cadastro do usuário',
+                text: 'Reveja as informações e tente novamente',
+                type: 'error',
+                group: 'toaster'
+              })
             }
           })
+      } else {
+        this.$notify({
+          title: 'Usuário já cadastrado',
+          text: 'O usuário informado já está cadastrado no nosso sistema.',
+          type: 'error',
+          group: 'toaster'
+        })
       }
     }
   }

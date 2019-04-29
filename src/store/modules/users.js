@@ -6,6 +6,7 @@ const state = {
   activeUser: null,
   token: null,
   allUsers: null,
+  selectedUser: null,
   error: null,
   status: '',
   loading: false
@@ -13,8 +14,7 @@ const state = {
 
 const mutations = {
   [types.FETCH_USER_SUCCESS] (state, { result }) {
-    state.activeUser = result
-    state.token = hashSync(result.password, 8)
+    state.selectedUser = result
     state.status = 'success'
     state.loading = false
   },
@@ -60,6 +60,7 @@ const mutations = {
 
   [types.SAVE_USER_SUCCESS] (state, { result }) {
     state.allUsers.push(result)
+    state.token = result.password
     state.status = 'success'
     state.loading = false
   },
@@ -69,6 +70,22 @@ const mutations = {
     state.loading = false
   },
   [types.SAVE_USER_PENDING] (state) {
+    state.status = 'loading'
+    state.loading = true
+  },
+
+  [types.LOGIN_USER_SUCCESS] (state, { result }) {
+    state.activeUser = result
+    state.token = result.password
+    state.status = 'success'
+    state.loading = false
+  },
+  [types.LOGIN_USER_FAILED] (state, { error }) {
+    state.error = error
+    state.status = 'failed'
+    state.loading = false
+  },
+  [types.LOGIN_USER_PENDING] (state) {
     state.status = 'loading'
     state.loading = true
   },
@@ -116,6 +133,22 @@ const actions = {
         commit(types.FETCH_USERS_FAILED, { error })
       })
   },
+  loginUser ({ commit, dispatch }, loginObj) {
+    commit(types.LOGIN_USER_PENDING)
+    return usersApi.loginUser(loginObj.login, loginObj.password)
+      .then(result => {
+        const { error } = result
+        if (error) {
+          commit(types.LOGIN_USER_FAILED, { error })
+        } else {
+          commit(types.LOGIN_USER_SUCCESS, { result })
+          return result
+        }
+      })
+      .catch(error => {
+        commit(types.LOGIN_USER_FAILED, { error })
+      })
+  },
   deleteUser ({ commit, dispatch }, userId) {
     commit(types.DELETE_USER_PENDING)
     return usersApi.deleteUser(userId)
@@ -140,6 +173,7 @@ const actions = {
           commit(types.SAVE_USER_FAILED, { error })
         } else {
           commit(types.SAVE_USER_SUCCESS, { result })
+          return result
         }
       })
       .catch(error => {

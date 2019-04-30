@@ -12,6 +12,12 @@
             </v-card-text>
             <small>{{ tweet.timestamp | displayDate }}</small>
           </v-responsive>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn fab small color="red accent-2" right absolute @click="deleteTweet(tweet)">
+              <v-icon color="white">fas fa-trash-alt</v-icon>
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
@@ -33,6 +39,11 @@ export default {
   filters: {
     displayDate (date) {
       return moment(date).format('DD/MM/YYYY HH:mm')
+    }
+  },
+  methods: {
+    deleteTweet (tweet) {
+      this.$store.dispatch('deleteTweet', tweet.id)
     }
   }
 }

@@ -44,6 +44,7 @@ export default {
             })
             this.$router.push('/')
             this.$emit('close')
+            this.tweet = ''
           } else {
             this.$notify({
               title: 'Erro na inserção do tweet',

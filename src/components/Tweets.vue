@@ -14,7 +14,7 @@
           </v-responsive>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn fab small color="red accent-2" right absolute @click="deleteTweet(tweet)">
+            <v-btn fab small color="red accent-2" right @click="deleteTweet(tweet)">
               <v-icon color="white">fas fa-trash-alt</v-icon>
             </v-btn>
           </v-card-actions>

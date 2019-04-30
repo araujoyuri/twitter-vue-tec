@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { hashSync } from 'bcryptjs'
 
 export default {
   name: 'LoginForm',

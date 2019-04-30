@@ -28,18 +28,29 @@ export default {
   },
   methods: {
     createTweet () {
-      let tweet = {
+      const tweet = {
         id: uuid.v4(),
         author: this.activeUser,
-        tweet: this.tweet,
+        text: this.tweet,
         timestamp: new Date()
       }
       this.$store.dispatch('saveTweet', tweet)
         .then(() => {
           if (this.$store.state.tweets.status === 'success') {
-            window.location.reload()
+            this.$notify({
+              title: 'Tweet cadastrado com sucesso',
+              type: 'success',
+              group: 'toaster'
+            })
+            this.$router.push('/')
+            this.$emit('close')
           } else {
-            window.alert('Erro na inserção do tweet. Tente novamente.')
+            this.$notify({
+              title: 'Erro na inserção do tweet',
+              text: 'Cheque sua conexão e tente novamente.',
+              type: 'error',
+              group: 'toaster'
+            })
           }
         })
     }

@@ -56,8 +56,7 @@ const mutations = {
     state.loading = true
   },
 
-  [types.SAVE_TWEET_SUCCESS] (state, { result }) {
-    state.allTweets.push(result)
+  [types.SAVE_TWEET_SUCCESS] (state) {
     state.status = 'success'
     state.loading = false
   },
@@ -158,7 +157,7 @@ const actions = {
         if (error) {
           commit(types.SAVE_TWEET_FAILED, { error })
         } else {
-          commit(types.SAVE_TWEET_SUCCESS, { result })
+          commit(types.SAVE_TWEET_SUCCESS)
         }
       })
       .catch(error => {

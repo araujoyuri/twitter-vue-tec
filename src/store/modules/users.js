@@ -1,6 +1,5 @@
 import * as types from '../mutation-types'
 import usersApi from '../../api/users'
-import { hashSync } from 'bcryptjs'
 
 const state = {
   activeUser: null,
@@ -75,7 +74,7 @@ const mutations = {
   },
 
   [types.LOGIN_USER_SUCCESS] (state, { result }) {
-    state.activeUser = result
+    state.activeUser = result.login
     state.token = result.password
     state.status = 'success'
     state.loading = false

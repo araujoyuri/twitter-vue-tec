@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { hashSync } from 'bcryptjs'
 import * as uuid from 'uuid'
 
 export default {

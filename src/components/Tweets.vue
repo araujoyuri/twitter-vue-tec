@@ -14,6 +14,13 @@
           </v-responsive>
           <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn fab small color="blue accent-2" right @click="editTweetModal = true">
+              <v-icon color="white">fas fa-pen</v-icon>
+            </v-btn>
+            <v-dialog v-model="editTweetModal" max-width="600px">
+              <edit-tweet :tweetToEdit="tweet" @close="editTweetModal = false"/>
+            </v-dialog>
+            &nbsp;
             <v-btn fab small color="red accent-2" right @click="deleteTweet(tweet)">
               <v-icon color="white">fas fa-trash-alt</v-icon>
             </v-btn>
@@ -26,8 +33,17 @@
 
 <script>
 import moment from 'moment'
+import EditTweet from '../components/EditTweet'
 
 export default {
+  data () {
+    return {
+      editTweetModal: false
+    }
+  },
+  components: {
+    EditTweet
+  },
   created () {
     this.$store.dispatch('getTweets')
   },

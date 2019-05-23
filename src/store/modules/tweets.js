@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import tweetsApi from '../../api/tweets'
+import usersApi from '../../api/users'
 
 const state = {
   allTweets: null,
@@ -121,7 +122,7 @@ const actions = {
   },
   getTweetsByUser ({ commit, dispatch }, userLogin) {
     commit(types.FETCH_TWEETS_BY_USER_PENDING)
-    return tweetsApi.getTweetsByUser(userLogin)
+    return usersApi.getTweetsByUser(userLogin)
       .then(result => {
         const { error } = result
         if (error) {
@@ -181,7 +182,7 @@ const actions = {
   },
   deleteTweetsFromUser ({ commit, dispatch }, userLogin) {
     commit(types.DELETE_TWEETS_FROM_USER_PENDING)
-    return tweetsApi.deleteTweetsFromUser(userLogin)
+    return usersApi.deleteTweetsFromUser(userLogin)
       .then(result => {
         const { error } = result
         if (error) {

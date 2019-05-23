@@ -1,34 +1,27 @@
-import { Database } from '../utils/querys'
+import config from '../app.config'
+import Vue from 'vue'
+
+const api = config.API_BASE_URL
 
 export default {
   getTweets () {
-    return Database.getTweetsList()
-      .then(response => Promise.resolve(response))
-      .catch(error => Promise.reject(error))
-  },
-  getTweetsByUser (userLogin) {
-    return Database.getTweetsByUser(userLogin)
-      .then(response => Promise.resolve(response))
-      .catch(error => Promise.reject(error))
+    return Vue.http.get(`${api}/tweet`)
+      .then(response => Promise.resolve(response.body))
+      .catch(error => Promise.reject(error.body))
   },
   findTweet (tweetId) {
-    return Database.findTweet(tweetId)
-      .then(response => Promise.resolve(response))
-      .catch(error => Promise.reject(error))
+    return Vue.http.get(`${api}/tweet/${tweetId}`)
+      .then(response => Promise.resolve(response.body))
+      .catch(error => Promise.reject(error.body))
   },
   saveTweet (tweet) {
-    return Database.insertTweet(tweet)
-      .then(response => Promise.resolve(response))
-      .catch(error => Promise.reject(error))
+    return Vue.http.post(`${api}/tweet`, tweet)
+      .then(response => Promise.resolve(response.body))
+      .catch(error => Promise.reject(error.body))
   },
   deleteTweet (tweetId) {
-    return Database.removeTweet(tweetId)
-      .then(response => Promise.resolve(response))
-      .catch(error => Promise.reject(error))
-  },
-  deleteTweetsFromUser (userLogin) {
-    return Database.removeTweetsFromUser(userLogin)
-      .then(response => Promise.resolve(response))
-      .catch(error => Promise.reject(error))
+    return Vue.http.delete(`${api}/tweet/${tweetId}`)
+      .then(response => Promise.resolve(response.body))
+      .catch(error => Promise.reject(error.body))
   }
 }

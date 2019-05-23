@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import * as uuid from 'uuid'
 
 export default {
   name: 'RegisterForm',
@@ -52,34 +51,24 @@ export default {
       }
     },
     registerUser () {
-      const user = this.resgisteredUsers.find(user => user.login === this.login)
-      if (!user) {
-        let user = {
-          id: uuid.v4(),
-          login: this.login,
-          password: this.password
-        }
-        this.$store.dispatch('saveUser', user)
-          .then(user => {
-            if (user) {
-              this.$router.push('/')
-            } else {
-              this.$notify({
-                title: 'Erro no cadastro do usuário',
-                text: 'Reveja as informações e tente novamente',
-                type: 'error',
-                group: 'toaster'
-              })
-            }
-          })
-      } else {
-        this.$notify({
-          title: 'Usuário já cadastrado',
-          text: 'O usuário informado já está cadastrado no nosso sistema.',
-          type: 'error',
-          group: 'toaster'
-        })
+      let user = {
+        login: this.login,
+        password: this.password
       }
+      this.$store.dispatch('saveUser', user)
+        .then(user => {
+          console.log('user: ', user)
+          if (user) {
+            this.$router.push('/')
+          } else {
+            this.$notify({
+              title: 'Erro no cadastro do usuário',
+              text: 'Reveja as informações e tente novamente',
+              type: 'error',
+              group: 'toaster'
+            })
+          }
+        })
     }
   }
 }

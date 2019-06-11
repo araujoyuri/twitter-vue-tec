@@ -13,7 +13,10 @@ Vue.use(Notification)
 Vue.use(Resource)
 
 Vue.http.options.root = '/root'
-Vue.http.headers.common['Authorization'] = 'Basic YXBpOnBhc3N3b3Jk'
+Vue.http.interceptors.push((request, next) => {
+  request.headers.set('Authorization', window.localStorage.getItem('vue-twitter-token'))
+  next()
+})
 
 new Vue({
   router,

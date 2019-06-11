@@ -9,7 +9,14 @@
           <v-text-field label="Senha" type="password" v-model="password" required></v-text-field>
         </v-flex>
         <v-flex xs12>
-          <v-text-field :class="{ invalid: !password_valid }" label="Verificar senha" type="password" v-model="check_password" @blur="verifyPassword" required></v-text-field>
+          <v-text-field
+            :class="{ invalid: !password_valid }"
+            label="Verificar senha"
+            type="password"
+            v-model="check_password"
+            @blur="verifyPassword"
+            required
+          ></v-text-field>
         </v-flex>
       </v-layout>
     </v-container>
@@ -21,62 +28,59 @@
 </template>
 
 <script>
-
 export default {
-  name: 'RegisterForm',
-  data () {
+  name: "RegisterForm",
+  data() {
     return {
       login: null,
       password: null,
       check_password: null,
       password_valid: true
-    }
+    };
   },
-  created () {
-    this.$store.dispatch('getUsers')
+  created() {
+    this.$store.dispatch("getUsers");
   },
   computed: {
-    resgisteredUsers () {
-      return this.$store.state.users.allUsers
+    resgisteredUsers() {
+      return this.$store.state.users.allUsers;
     }
   },
   methods: {
-    verifyPassword () {
+    verifyPassword() {
       if (this.password === this.check_password) {
-        this.password_valid = true
-        return true
+        this.password_valid = true;
+        return true;
       } else {
-        this.password_valid = false
-        return false
+        this.password_valid = false;
+        return false;
       }
     },
-    registerUser () {
+    registerUser() {
       let user = {
         login: this.login,
         password: this.password
-      }
-      this.$store.dispatch('saveUser', user)
-        .then(user => {
-          console.log('user: ', user)
-          if (user) {
-            this.$router.push('/')
-          } else {
-            this.$notify({
-              title: 'Erro no cadastro do usuário',
-              text: 'Reveja as informações e tente novamente',
-              type: 'error',
-              group: 'toaster'
-            })
-          }
-        })
+      };
+      this.$store.dispatch("saveUser", user).then(user => {
+        if (user) {
+          this.$router.push("/");
+        } else {
+          this.$notify({
+            title: "Erro no cadastro do usuário",
+            text: "Reveja as informações e tente novamente",
+            type: "error",
+            group: "toaster"
+          });
+        }
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>
-  .invalid {
-    background-color: #d55d4b;
-    border-color: #d51c21 ;
-  }
+.invalid {
+  background-color: #d55d4b;
+  border-color: #d51c21;
+}
 </style>

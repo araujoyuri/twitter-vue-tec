@@ -12,17 +12,17 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Home
     },
     {
-      path: 'login',
-      name: 'login_page',
+      path: '/login',
+      name: 'LoginPage',
       component: LoginPage
     },
     {
-      path: 'timeline',
-      name: 'timeline',
+      path: '/timeline',
+      name: 'Timeline',
       component: Timeline
     }
   ]

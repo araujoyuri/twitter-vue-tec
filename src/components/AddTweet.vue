@@ -12,53 +12,51 @@
 </template>
 
 <script>
-import uuid from 'uuid'
-
 export default {
-  name: 'AddTweet',
-  data () {
+  name: "AddTweet",
+  data() {
     return {
       tweet: null
-    }
+    };
   },
   computed: {
-    activeUser () {
-      return this.$store.state.users.activeUser
+    activeUser() {
+      return this.$store.state.users.activeUser;
     }
   },
   methods: {
-    createTweet () {
-      const tweet = {
-        id: uuid.v4(),
-        author: this.activeUser,
-        text: this.tweet,
-        timestamp: new Date()
-      }
-      this.$store.dispatch('saveTweet', tweet)
+    createTweet() {
+      const tweet = [
+        {
+          author: this.activeUser,
+          text: this.tweet
+        }
+      ];
+      this.$store
+        .dispatch("saveTweet", tweet)
         .then(() => {
-          if (this.$store.state.tweets.status === 'success') {
-            this.$notify({
-              title: 'Tweet cadastrado com sucesso',
-              type: 'success',
-              group: 'toaster'
-            })
-            this.$router.push('/')
-            this.$emit('close')
-            this.tweet = ''
-          } else {
-            this.$notify({
-              title: 'Erro na inserção do tweet',
-              text: 'Cheque sua conexão e tente novamente.',
-              type: 'error',
-              group: 'toaster'
-            })
-          }
+          this.$router.push("/");
+          this.$emit("close");
+          this.tweet = "";
+          this.$destroy();
+          this.$notify({
+            title: "Tweet cadastrado com sucesso",
+            type: "success",
+            group: "toaster"
+          });
         })
+        .catch(err => {
+          this.$notify({
+            title: "Erro na inserção do tweet",
+            text: err,
+            type: "error",
+            group: "toaster"
+          });
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

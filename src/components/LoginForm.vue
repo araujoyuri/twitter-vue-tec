@@ -18,39 +18,40 @@
 </template>
 
 <script>
-
 export default {
-  name: 'LoginForm',
-  data () {
+  name: "LoginForm",
+  data() {
     return {
-      login: 'araujoyuri',
-      password: 'araujoyuri@123'
-    }
+      login: "araujoyuri",
+      password: "12345678"
+    };
   },
   methods: {
-    checkLogin () {
+    checkLogin() {
       const loginObj = {
         login: this.login,
         password: this.password
-      }
-      this.$store.dispatch('loginUser', loginObj)
+      };
+      this.$store
+        .dispatch("loginUser", loginObj)
         .then(user => {
-          if (user) {
-            this.$router.push('/')
-          } else {
-            this.$notify({
-              title: 'Usuário não encontrado',
-              text: 'Reveja os dados informados e tente novamente.',
-              type: 'error',
-              group: 'toaster'
-            })
-          }
+          this.$router.push("/");
+          this.$emit("close");
+          this.$destroy();
         })
+        
+        .catch(err => {
+          this.$notify({
+            title: "Usuário não encontrado",
+            text: err,
+            type: "error",
+            group: "toaster"
+          });
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

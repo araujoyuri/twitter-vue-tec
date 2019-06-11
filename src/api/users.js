@@ -9,8 +9,8 @@ export default {
       .then(response => Promise.resolve(response))
       .catch(error => Promise.reject(error.body))
   },
-  loginUser (login, password) {
-    return Vue.http.post(`${api}/user`, { login, password })
+  loginUser (loginObj) {
+    return Vue.http.post(`${api}/login`, loginObj)
       .then(response => Promise.resolve(response.body))
       .catch(error => Promise.reject(error.body))
   },
@@ -35,7 +35,7 @@ export default {
       .catch(error => Promise.reject(error.body))
   },
   saveUser (user) {
-    return Vue.http.post(`${api}/user`, user)
+    return Vue.http.post(`${api}/register`, user)
       .then(response => Promise.resolve(response.body))
       .catch(error => Promise.resolve(error.body))
   }

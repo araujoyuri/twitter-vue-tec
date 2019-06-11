@@ -12,48 +12,43 @@
 </template>
 
 <script>
-
 export default {
-  name: 'EditTweet',
-  data () {
+  name: "EditTweet",
+  data() {
     return {
       tweet: null
-    }
+    };
   },
   props: {
     tweetToEdit: Object
   },
-  created () {
-    console.log('tweet: ', this.tweetToEdit)
-  },
   methods: {
-    updateTweet () {
-        this.tweetToEdit.tweet = this.tweet
-      this.$store.dispatch('saveTweet', this.tweetToEdit)
+    updateTweet() {
+      this.$store
+        .dispatch("updateTweet", { text: this.tweet, _id: this.tweetToEdit._id })
         .then(() => {
-          if (this.$store.state.tweets.status === 'success') {
-            this.$notify({
-              title: 'Tweet cadastrado com sucesso',
-              type: 'success',
-              group: 'toaster'
-            })
-            this.$router.push('/')
-            this.$emit('close')
-            this.tweet = ''
-          } else {
-            this.$notify({
-              title: 'Erro na inserção do tweet',
-              text: 'Cheque sua conexão e tente novamente.',
-              type: 'error',
-              group: 'toaster'
-            })
-          }
+          this.$notify({
+            title: "Tweet cadastrado com sucesso",
+            type: "success",
+            group: "toaster"
+          });
+          this.$router.push("/");
+          this.$emit("close");
+          this.$destroy();
+          this.tweet = "";
         })
+        .catch(err => {
+          this.$notify({
+            title: "Erro na inserção do tweet",
+            text: err,
+            type: "error",
+            group: "toaster"
+          });
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

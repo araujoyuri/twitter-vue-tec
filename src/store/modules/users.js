@@ -74,8 +74,9 @@ const mutations = {
   },
 
   [types.LOGIN_USER_SUCCESS] (state, { result }) {
-    state.activeUser = result.login
-    state.token = result.password
+    window.localStorage.setItem('vue-twitter-token', result.token)
+    state.activeUser = result.user._id
+    state.token = result.token
     state.status = 'success'
     state.loading = false
   },
@@ -134,7 +135,7 @@ const actions = {
   },
   loginUser ({ commit, dispatch }, loginObj) {
     commit(types.LOGIN_USER_PENDING)
-    return usersApi.loginUser(loginObj.login, loginObj.password)
+    return usersApi.loginUser(loginObj)
       .then(result => {
         const { error } = result
         if (error) {

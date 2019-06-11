@@ -13,7 +13,7 @@ const state = {
 
 const mutations = {
   [types.FETCH_TWEETS_SUCCESS] (state, { result }) {
-    state.allTweets = result
+    state.allTweets = result.docs
     state.status = 'success'
     state.loading = false
   },
@@ -57,7 +57,17 @@ const mutations = {
     state.loading = true
   },
 
-  [types.SAVE_TWEET_SUCCESS] (state) {
+  UPDATE_TWEET_SUCCESS (state, { result }) {
+    state.allTweets = state.allTweets.map(tweet => {
+      if (tweet._id === result._id) {
+        tweet = result
+      }
+      return tweet
+    })
+  },
+
+  [types.SAVE_TWEET_SUCCESS] (state, { result }) {
+    state.allTweets.push(result[0])
     state.status = 'success'
     state.loading = false
   },
@@ -71,8 +81,8 @@ const mutations = {
     state.loading = true
   },
 
-  [types.DELETE_TWEET_SUCCESS] (state, { result }) {
-    state.allTweets = state.allTweets.filter(tweet => tweet.id !== result.id)
+  [types.DELETE_TWEET_SUCCESS] (state, { tweetId }) {
+    state.allTweets = state.allTweets.filter(tweet => tweet._id !== tweetId)
     state.status = 'success'
     state.loading = false
   },
@@ -135,6 +145,12 @@ const actions = {
         commit(types.FETCH_TWEETS_BY_USER_FAILED, { error })
       })
   },
+  updateTweet ({ commit, dispatch }, tweet) {
+    tweetsApi.updateTweet(tweet)
+      .then(result => {
+        commit('UPDATE_TWEET_SUCCESS', { result })
+      })
+  },
   findTweet ({ commit, dispatch }, tweetId) {
     commit(types.FIND_TWEET_PENDING)
     return tweetsApi.findTweet(tweetId)
@@ -158,7 +174,7 @@ const actions = {
         if (error) {
           commit(types.SAVE_TWEET_FAILED, { error })
         } else {
-          commit(types.SAVE_TWEET_SUCCESS)
+          commit(types.SAVE_TWEET_SUCCESS, { result })
         }
       })
       .catch(error => {
@@ -173,7 +189,7 @@ const actions = {
         if (error) {
           commit(types.DELETE_TWEET_FAILED, { error })
         } else {
-          commit(types.DELETE_TWEET_SUCCESS, { result })
+          commit(types.DELETE_TWEET_SUCCESS, { tweetId })
         }
       })
       .catch(error => {

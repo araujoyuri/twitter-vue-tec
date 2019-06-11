@@ -1,6 +1,6 @@
 function getEnv () {
   if (window.location.host.match(/local/)) {
-    return 'http://localhost:8080'
+    return 'http://localhost:3000'
   }
 }
 export default {
